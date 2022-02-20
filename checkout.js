@@ -1,5 +1,4 @@
 const products = document.querySelector(".products");
-const productTotal = document.querySelectorAll(".product-line-price");
 const subTotal = document.querySelector("#cart-subtotal");
 const tax = document.querySelector("#cart-tax");
 const shipping = document.querySelector("#cart-shipping");
@@ -9,7 +8,7 @@ function eventListeners(){
     products.addEventListener("click", increaseAmount);
     products.addEventListener("click", decreaseAmount);
     products.addEventListener("click", removeAmount);
-    document.addEventListener("DOMContentLoaded", defaultTotalValues);
+    document.addEventListener("DOMContentLoaded", totalPrice);
 };
 function increaseAmount(e){
     if(e.target.className === "fas fa-plus"){
@@ -29,25 +28,21 @@ function decreaseAmount(e){
 }
 function removeAmount(e){    
     if(e.target.className === "remove-product"){
-        let value = e.target.parentElement.previousElementSibling.previousElementSibling.firstElementChild.firstElementChild.textContent;
-        console.log(e.target.parentElement.previousElementSibling.children[1].textContent = 1); 
-        e.target.parentElement.parentElement.lastElementChild.textContent = value;
+        // let value = e.target.parentElement.previousElementSibling.previousElementSibling.firstElementChild.firstElementChild.textContent;
+        // console.log(e.target.parentElement.previousElementSibling.children[1].textContent = 1); 
+        // e.target.parentElement.parentElement.lastElementChild.textContent = value;
+        e.target.parentElement.parentElement.parentElement.remove()
         totalPrice();
     }
 }
-function defaultTotalValues(){
-    subTotal.children[1].textContent = 146.96;
-    tax.children[1].textContent = 26.45;
-    shipping.children[1].textContent = (15).toFixed(2);
-    totalAll.children[1].textContent = 188.41;
-}
 function totalPrice(e){
+    const productTotal = document.querySelectorAll(".product-line-price");
     let total = 0;
     productTotal.forEach((el)=>{
       total += +el.textContent; 
    });
    subTotal.children[1].textContent = total.toFixed(2);
    tax.children[1].textContent = (total * 0.18).toFixed(2);
-   shipping.children[1].textContent = (15).toFixed(2);
-   totalAll.children[1].textContent = (total + (total * 0.18) + 15).toFixed(2);
+   let x = shipping.children[1].textContent = (productTotal.length) ? (15).toFixed(2) : (0).toFixed(2);
+   totalAll.children[1].textContent = (total + (total * 0.18) + (+x)).toFixed(2);
 }
